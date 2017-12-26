@@ -24,17 +24,17 @@ FROM debian:stretch-slim
 COPY clean-apt /usr/bin
 COPY clean-install /usr/bin
 COPY Gemfile /Gemfile
-
 # 1. Install & configure dependencies.
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-RUN apt-get update && apt-get install net-tools
+#RUN apt-get update && apt-get install net-tools
 RUN BUILD_DEPS="make gcc g++ libc6-dev ruby-dev" \
     && clean-install $BUILD_DEPS \
                      ca-certificates \
                      libjemalloc1 \
                      ruby \
+                     net-tools \
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install --file Gemfile \
     && apt-get purge -y --auto-remove \
